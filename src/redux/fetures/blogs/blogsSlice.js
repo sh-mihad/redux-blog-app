@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { fetchBlogsApi } from "../fetchBlogs";
+import { fetchBlogsApi } from "./blogsSliceAPI";
 
 const initialState = {
   loading: false,
@@ -13,7 +13,9 @@ export const fetchBlogs = createAsyncThunk(
     return await fetchBlogsApi(filter);
   }
 );
-
+// export const editBlogs = createAsyncThunk("edit/patchBlog", async (blog) => {
+//   return await updateBlog(blog);
+// });
 const blogsSlice = createSlice({
   name: "blogs",
   initialState,
@@ -34,6 +36,20 @@ const blogsSlice = createSlice({
         state.error = action.error.message;
         state.blogs = [];
       });
+    // .addCase(editBlogs.pending, (state) => {
+    //   state.loading = true;
+    //   state.error = "";
+    // })
+    // .addCase(editBlogs.fulfilled, (state, action) => {
+    //   state.loading = false;
+    //   state.error = "";
+    //   const getIndex = state.blogs.findIndex(
+    //     (blog) => blog.id === action.payload.id
+    //   );
+    //   if (getIndex !== 1) {
+    //     state[getIndex] = action.payload;
+    //   }
+    // });
   },
 });
 

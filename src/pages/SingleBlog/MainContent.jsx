@@ -1,41 +1,62 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React from 'react'
-
-export default function MainContent() {
+import React from "react";
+import { useDispatch } from "react-redux";
+import { editBlogs } from "../../redux/fetures/singleBlog/singleBlogSlice";
+export default function MainContent({ blog }) {
+  const { id, title, description, image, tags, likes, isSaved, createdAt } =
+    blog || {};
+  const dispatch = useDispatch();
+  const handleSaved = (blog) => {
+    const modifiedBlogData = { ...blog, isSaved: !blog.isSaved };
+    dispatch(editBlogs(modifiedBlogData));
+  };
+  const handleLike = (blog) => {
+    const modifiedBlogData = { ...blog, likes: blog.likes + 1 };
+    dispatch(editBlogs(modifiedBlogData));
+  };
   return (
-    
     <main className="post">
-      <img src="./images/mern.webp" alt="githum" className="w-full rounded-md" id="lws-megaThumb" />
+      <img
+        src={image}
+        alt={title}
+        className="w-full rounded-md"
+        id="lws-megaThumb"
+      />
       <div>
         <h1 className="mt-6 text-2xl post-title" id="lws-singleTitle">
-          MERN stack for Web Development
+          {title}
         </h1>
         <div className="tags" id="lws-singleTags">
-          <span>#python,</span> <span>#tech,</span> <span>#git</span>
+          {tags?.map((item) =>
+            tags.length - 1 ? (
+              <span key={item}>#{item}</span>
+            ) : (
+              <span key={item}>#{item}</span>
+            )
+          )}
         </div>
         <div className="btn-group">
-         
-          <button className="like-btn" id="lws-singleLinks">
-            <i className="fa-regular fa-thumbs-up"></i> 100
+          <button
+            onClick={() => handleLike(blog)}
+            className="like-btn"
+            id="lws-singleLinks"
+          >
+            <i className="fa-regular fa-thumbs-up"></i> {likes}
           </button>
-         
-         
-          <button className="active save-btn" id="lws-singleSavedBtn">
+
+          <button
+            className={`${isSaved && "active"} save-btn`}
+            id="lws-singleSavedBtn"
+            onClick={() => handleSaved(blog)}
+          >
             <i className="fa-regular fa-bookmark"></i> Saved
           </button>
         </div>
         <div className="mt-6">
-          <p>
-            A MERN stack comprises a collection of four frameworks (MongoDB,
-            ExpressJs, ReactJs and NodeJs) used to develop full-stack
-            javascript solutions for rapid, scalable, and secure applications.
-            Each framework serves a different purpose in creating successful
-            web applications. It is an excellent choice for companies looking
-            to develop high-quality responsive applications quickly using just
-            one language.
-          </p>
+          <p>{description}</p>
         </div>
       </div>
     </main>
-  )
+  );
 }
