@@ -9,10 +9,11 @@ import Card from "./Card";
 export default function CardContainer() {
   const { blogs, loading, error } = useSelector((state) => state.blogs);
   const { sort } = useSelector((state) => state.sort);
+  const { filter } = useSelector((state) => state.filter);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchBlogs());
-  }, [dispatch]);
+    dispatch(fetchBlogs(filter));
+  }, [dispatch, filter]);
 
   let content = null;
   let blogsArr = null;

@@ -1,6 +1,7 @@
-import instance from "../../axios/axiosInstance"
+import instance from "../../axios/axiosInstance";
 
-export const fetchBlogsApi = async()=>{
-   const response = await instance("/blogs")
-   return response.data
-}
+export const fetchBlogsApi = async (filter) => {
+  const path = filter === "saved" ? `/blogs?isSaved=true` : "/blogs";
+  const response = await instance(path);
+  return response.data;
+};

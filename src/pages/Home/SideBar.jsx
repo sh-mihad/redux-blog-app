@@ -1,9 +1,19 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { filterAction } from "../../redux/fetures/filters/filterSlice";
 import { sortBy } from "../../redux/fetures/sorts/sortSlice";
 export default function SideBar() {
   const dispatch = useDispatch();
+  const { filter } = useSelector((state) => state.filter);
   const handleChange = (e) => {
     dispatch(sortBy(e.target.value));
+  };
+  const handleFilter = (e) => {
+    if (e.target.name === "all") {
+      dispatch(filterAction("all"));
+    }
+    if (e.target.name === "saved") {
+      dispatch(filterAction("saved"));
+    }
   };
   return (
     <aside>
@@ -27,19 +37,22 @@ export default function SideBar() {
             <div>
               <input
                 type="radio"
-                name="filter"
+                name="all"
                 id="lws-all"
-                checked
+                checked={filter === "all"}
                 className="radio"
+                onChange={handleFilter}
               />
               <label htmlFor="lws-all">All</label>
             </div>
             <div>
               <input
                 type="radio"
-                name="filter"
+                name="saved"
                 id="lws-saved"
                 className="radio"
+                checked={filter === "saved"}
+                onChange={handleFilter}
               />
               <label htmlFor="lws-saved">Saved</label>
             </div>

@@ -7,9 +7,12 @@ const initialState = {
   error: "",
 };
 
-export const fetchBlogs = createAsyncThunk("blogs/fetchBlogs", async () => {
-  return await fetchBlogsApi();
-});
+export const fetchBlogs = createAsyncThunk(
+  "blogs/fetchBlogs",
+  async (filter) => {
+    return await fetchBlogsApi(filter);
+  }
+);
 
 const blogsSlice = createSlice({
   name: "blogs",
